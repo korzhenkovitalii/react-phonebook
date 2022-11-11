@@ -1,0 +1,10 @@
+.title {
+  font-size: 16px;
+}
+
+.input:focus,
+.input:hover {
+  border: none;
+  box-shadow: 0px 0px 5px 3px #4b74f2;
+  outline: none;
+}
