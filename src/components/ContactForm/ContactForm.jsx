@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { PropTypes } from 'prop-types';
 import shortid from 'shortid';
 import css from 'components/ContactForm/ContactForm.module.css';
 
-export const ContactForm = onSubmit => {
+export const ContactForm = ({onSubmit}) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [id, setId] = useState(() => shortid.generate());
@@ -30,6 +29,7 @@ export const ContactForm = onSubmit => {
       number: number,
       id: id,
     };
+    
     onSubmit(user);
 
     resetForm();
@@ -75,8 +75,4 @@ export const ContactForm = onSubmit => {
       </button>
     </form>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };

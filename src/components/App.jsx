@@ -15,8 +15,9 @@ export const App = () => {
 
   useEffect(() => {
     const contactsFromLS = JSON.parse(localStorage.getItem('contacts'));
+    console.log(contactsFromLS);
     if (contactsFromLS) {
-      setContacts({ contacts: contactsFromLS });
+      setContacts( contactsFromLS );
     }
   }, []);
 
@@ -25,9 +26,6 @@ export const App = () => {
   }, [contacts]);
 
   const formSubmitHandler = contact => {
-    console.log(contact);
-
-    //Проверка есть ли уже данные в контактах
     const repeatName = contacts.some(
       ({ name }) => name.toLowerCase() === contact.name.trim().toLowerCase()
     );
@@ -44,18 +42,17 @@ export const App = () => {
   const onFilterHandler = e => {
     setFilter(e.target.value);
   };
-
   const getFilteredContacts = filterString => {
     const normalizedFilter = filterString.toLowerCase().trim();
 
-    return filter(({ name }) => name.toLowerCase().includes(normalizedFilter));
+    return contacts.filter(({ name }) =>
+      name.toLowerCase().includes(normalizedFilter)
+    );
   };
 
-  // const deleteContact = id => {
-  //  setContacts(prevState => ({
-  //     filter(contact => contact.id !== id),
-  //   }));
-  // };
+  const deleteContact = id => {
+    setContacts(contacts.filter(contact => contact.id !== id));
+  };
 
   const renderContacts = filter ? getFilteredContacts(filter) : contacts;
 
@@ -66,21 +63,7 @@ export const App = () => {
 
       <h2>Contacts</h2>
       <Filter value={filter} onFilterHandler={onFilterHandler} />
-      <ContactList
-        contacts={renderContacts}
-        deleteContact={this.deleteContact}
-      />
+      <ContactList contacts={renderContacts} deleteContact={deleteContact} />
     </div>
   );
 };
-
-// ContactList.propTypes = {
-//   contacts: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       name: PropTypes.string.isRequired,
-//       number: PropTypes.string.isRequired,
-//       id: PropTypes.string.isRequired,
-//     })
-//   ),
-//   deleteContact: PropTypes.func.isRequired,
-// };
